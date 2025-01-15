@@ -1,0 +1,92 @@
+###install java
+sudo apt update
+sudo apt install openjdk-8-jdk --fix-missing -y
+nano ~/.bashrc
+
+#add folowing envs to it
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+
+#
+source ~/.bashrc
+java -version
+
+###install python
+sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.10 python3.10-venv python3.10-dev python3.10-pip
+python3 --version
+
+
+#create venv
+cd /opt
+sudo mkdir pyspark
+sudo chown -R YOUR_USERNAME pyspark
+cd pyspark
+python3.10 -m venv pyspark_venv
+source pyspark_venv/bin/activate
+deactivate
+
+#git
+sudo apt install git -y
+git --version
+
+#clone codes
+cd /opt/pyspark/
+git clone https://github.com/SaeedShirazi/pyspark_training_codes
+cd pyspark_training_codes/general_concepts
+nano test_code.py
+
+###install pyspark
+/opt/pyspark/pyspark_venv/bin/pip3 install pyspark
+
+#run test pyspark code
+python3 test_code.py
+python3.10 test_code.py
+
+#Pyspark does not exist? How to fix?!
+/opt/pyspark/pyspark_venv/bin/python3.10 test_code.py
+
+#python mismatch error?
+nano ~/.bashrc
+
+#add following
+export PYSPARK_PYTHON=/opt/pyspark/pyspark_venv/bin/python3.10  # Path to Python on worker nodes
+export PYSPARK_DRIVER_PYTHON=/opt/pyspark/pyspark_venv/bin/python3.10  # Path to Python on the driver
+
+source ~/.bashrc
+
+#run again
+/opt/pyspark/pyspark_venv/bin/python3.10 test_code.py
+
+
+###deploy spark
+cd /opt/pyspark
+wget https://archive.apache.org/dist/spark/spark-3.5.1/spark-3.5.1-bin-hadoop3-scala2.13.tgz
+tar -xvf spark-3.5.1-bin-hadoop3-scala2.13.tgz spark-3.5.1
+mv spark-3.5.1-bin-hadoop3-scala2.13 spark-3.5.1
+cd spark-3.5.1/bin
+./pyspark
+#copy codes from test_code to it
+exit()
+
+#add spark path to env
+nano ~/.bashrc
+
+#add following
+export SPARK_HOME=/opt/pyspark/spark-3.5.1
+export PATH=$SPARK_HOME/bin:$PATH
+
+source ~/.bashrc
+
+#test
+pyspark
+spark-submit
+
+# run your code in spark-submit
+spark-submit --master local[*] /opt/pyspark/pyspark_training_codes/general_concepts/test_code.py
+
+
+
+

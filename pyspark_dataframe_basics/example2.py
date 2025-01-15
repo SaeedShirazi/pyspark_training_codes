@@ -28,6 +28,16 @@ df.na.drop().show()
 #Fill Missing Values:
 df.na.fill({"age": 0}).show()
 
+#Add a New Column:
+
+df = df.withColumn("NewColumn", df.age * 2)
+df.show()
+
+#Rename Columns:
+
+df = df.withColumnRenamed("age", "years")
+df.show()
+
 
 #Inspecting Schemas:
 df.printSchema()

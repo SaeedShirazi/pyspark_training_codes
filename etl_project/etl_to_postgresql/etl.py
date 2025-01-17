@@ -17,3 +17,15 @@ secondary_df = spark.read.csv("/home/saeed/PycharmProjects/pyspark_training_code
 # Show schemas
 primary_df.printSchema()
 secondary_df.printSchema()
+
+#Task2
+
+# Calculate 70% threshold
+total_count = primary_df.count()
+threshold = int(total_count * 0.7)
+
+# Filter data based on `id`
+filtered_df = primary_df.filter(primary_df.id <= threshold)
+
+# Verify the filtered data
+filtered_df.show(5)

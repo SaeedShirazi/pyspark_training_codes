@@ -29,3 +29,15 @@ filtered_df = primary_df.filter(primary_df.id <= threshold)
 
 # Verify the filtered data
 filtered_df.show(5)
+
+#Task3
+
+from pyspark.sql.functions import broadcast
+
+# Perform broadcast join
+joined_df = filtered_df.join(broadcast(secondary_df), on="region", how="inner")
+
+# Verify the join result
+joined_df.show(2)
+
+

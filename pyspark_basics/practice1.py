@@ -1,7 +1,12 @@
-from pyspark import SparkContext
+from pyspark.sql import SparkSession
 
+# Initialize SparkSession
+spark = SparkSession.builder.appName("Example").getOrCreate()
+
+# Access SparkContext from SparkSession
+sc = spark.sparkContext
+spark.sparkContext.setLogLevel("WARN")
 # Initialize SparkContext
-sc = SparkContext("local", "Practice")
 
 # Load the CSV file
 rdd = sc.textFile("/opt/pyspark/pyspark_training_codes/sample_data.csv")

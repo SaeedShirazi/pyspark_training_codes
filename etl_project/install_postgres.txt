@@ -1,0 +1,38 @@
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+
+service postgresql status
+
+sudo -u postgres psql
+
+#in psql:(Change default password)
+
+\password postgres
+\q
+
+sudo nano /etc/postgresql/16/main/postgresql.conf
+
+#put following in it:
+listen_addresses = '*'
+
+sudo nano /etc/postgresql/16/main/pg_hba.conf
+
+#put following at the bottom
+host all all 0.0.0.0/0 md5
+#exit the file.
+
+sudo systemctl restart postgresql
+
+#check if it is up:
+ss -nlt | grep 5432
+
+# create pyspark_training database in postgreSql
+#database name: pyspark_training
+sudo -u postgres psql
+CREATE DATABASE pyspark_training;
+
+#Make sure to set a strong password for the user
+CREATE USER pyspark_user WITH PASSWORD 'password' SUPERUSER;
+GRANT ALL PRIVILEGES ON DATABASE pyspark_training TO pyspark_user;
+
+\q

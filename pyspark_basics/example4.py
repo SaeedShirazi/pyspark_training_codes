@@ -1,7 +1,11 @@
-from pyspark import SparkContext
+from pyspark.sql import SparkSession
 
-# Initialize SparkContext
-sc = SparkContext("local", "Example")
+# Initialize SparkSession
+spark = SparkSession.builder.appName("Example").getOrCreate()
+
+# Access SparkContext from SparkSession
+sc = spark.sparkContext
+spark.sparkContext.setLogLevel("WARN")
 
 lookup_table = {"a": 1, "b": 2, "c": 3}
 broadcast_var = sc.broadcast(lookup_table)

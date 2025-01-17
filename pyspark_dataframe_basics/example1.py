@@ -27,10 +27,32 @@ df.show()
 df = spark.read.csv("/opt/pyspark/pyspark_training_codes/sample_data.csv", header=True, inferSchema=True)
 df.show()
 
-#JSON:
-#df = spark.read.json("data.json")
-#df.show()
+# Initialize SparkSession
+spark = SparkSession.builder \
+    .appName("CSV to Parquet and JSON") \
+    .getOrCreate()
 
-#Parquet:
-#df = spark.read.parquet("data.parquet")
-#df.show()
+
+parquet_output_path = "/opt/pyspark/pyspark_training_codes/"
+df.write.mode("overwrite").parquet(parquet_output_path)
+
+
+json_output_path = "/opt/pyspark/pyspark_training_codes/"
+df.write.mode("overwrite").json(json_output_path)
+
+# Read the Parquet file back into a DataFrame
+df_parquet = spark.read.parquet(parquet_output_path)
+
+# Read the JSON file back into a DataFrame
+df_json = spark.read.json(json_output_path)
+
+# Show data from Parquet DataFrame
+print("Data from Parquet:")
+df_parquet.show()
+
+# Show data from JSON DataFrame
+print("Data from JSON:")
+df_json.show()
+
+# Stop the SparkSession
+spark.stop()

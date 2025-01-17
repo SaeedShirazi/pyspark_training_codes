@@ -1,0 +1,43 @@
+Overview:
+This project is designed to simulate a real-world ETL (Extract, Transform, Load) workflow using PySpark and PostgreSQL
+
+Example command:
+spark-submit --master local[*] /home/saeed/PycharmProjects/pyspark_training_codes/etl_project/postgresql_sync/main.py \
+    --db_type=postgresql \
+    --db_ip=localhost \
+    --db_port=5432 \
+    --db_name=pyspark_training \
+    --db_username=pyspark_user \
+    --db_password=password \
+    --table_name=etl_transformed_data \
+    --path=/home/saeed/PycharmProjects/pyspark_training_codes/etl_project/postgresql_sync/pyspark_training/data \
+    --strategy=append \
+    --unique_id=id
+
+Task 1: Parse Arguments
+Write a script that accepts arguments via spark-submit.
+Parse the arguments and print them to verify correctness.
+Required arguments include database credentials, table name, file paths, and a write strategy.
+
+Task 2: Connect to PostgreSQL and Print Rows
+If the db_type is postgresql, call a function in etl.py to:
+Connect to the specified PostgreSQL database and table.
+Print the first few rows of the table to verify the connection.
+
+Task 3: Query Data and Save to Parquet
+Create a metadata directory to store:
+An offset file containing the maximum processed ID.
+A schema file describing the data schema.
+
+Query data from the PostgreSQL table based on the following conditions:
+If an offset file exists:
+Read the file to determine the maximum ID already processed.
+Query rows with IDs greater than this offset and append them to the dataset.
+If the offset file does not exist:
+Query all rows from the table and overwrite the dataset.
+Save the queried data to the specified path in Parquet format.
+
+Add additional functionality to compare schemas before writing new data.
+If the schema of the previously written data and the new data are different, the program will print an error message and exit.
+ If the schemas match, the new data will be written.
+

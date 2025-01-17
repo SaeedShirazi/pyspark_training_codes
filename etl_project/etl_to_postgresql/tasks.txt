@@ -1,0 +1,25 @@
+Step 1: Load the Datasets
+Load the primary dataset (primary_data.csv) and secondary dataset (secondary_data.csv) into PySpark DataFrames.
+Verify the schema and data integrity.
+
+Step 2: Filter the First 70% of Data
+Determine the threshold for the top 70% of data based on the id column.
+Filter the DataFrame to include only rows within this range.
+
+Step 3: Perform a Join with the Secondary Dataset
+Use a broadcast join to join the filtered_df with the secondary_df on the region column.
+This ensures efficient joins as the secondary_df is small.
+
+Step 4: Transform the Data
+Calculate a new column named spending_per_year based on total_spent and join_date).
+Filter out inactive users (is_active = False).
+Rename columns if needed.
+
+Step 5: Write the Data to PostgreSQL
+Install the PostgreSQL JDBC driver if not already available.
+Configure the connection parameters for the local PostgreSQL database.
+Write the transformed_df to a table in PostgreSQL.
+
+Step 6: Validate the Data in PostgreSQL
+Query the PostgreSQL database to ensure the data has been written correctly.
+Check for data consistency and integrity.

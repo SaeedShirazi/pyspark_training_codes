@@ -41,3 +41,14 @@ joined_df = filtered_df.join(broadcast(secondary_df), on="region", how="inner")
 joined_df.show(2)
 
 
+#Task4
+
+from pyspark.sql.functions import col, year
+
+# Add transformations
+transformed_df = joined_df.withColumn(
+    "spending_per_year", col("total_spent") / (2025 - year(col("join_date")))
+).filter(col("is_active") == True)
+
+# Verify transformations
+transformed_df.show(5)

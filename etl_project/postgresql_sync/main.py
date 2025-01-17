@@ -1,4 +1,5 @@
 import argparse
+from etl import postgresql_sync
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="ETL project with Spark and PostgreSQL")
@@ -36,6 +37,20 @@ def main():
 # strategy: append
 # unique_id: id
 
+
+  # Task 2: Call PostgreSQL sync function if db_type is postgresql
+    if args.db_type.lower() == "postgresql":
+        postgresql_sync(
+            db_ip=args.db_ip,
+            db_port=args.db_port,
+            db_name=args.db_name,
+            db_username=args.db_username,
+            db_password=args.db_password,
+            table_name=args.table_name,
+            path=args.path,
+            strategy=args.strategy,
+            unique_id=args.unique_id
+        )
 
 if __name__ == "__main__":
     main()
